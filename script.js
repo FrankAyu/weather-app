@@ -8,7 +8,7 @@ const weatherIcon = document.querySelector(".weather-icon");
 async function checkWeather(city){
     const response = await fetch(apiUrl + city + `&appid=${config.apiKey}`);
 
-    if(response.status == 404) {
+    if(response.status === 404) {
     document.querySelector(".error").style.display = "block";
     document.querySelector(".weather").style.display = "none";  
     } else {
@@ -19,24 +19,18 @@ async function checkWeather(city){
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
     document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
     
-    if(data.weather[0].main == "Clouds") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/clouds.png";
-    }
-    else if(data.weather[0].main == "Clear") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/clear.png";
-    }
-    else if(data.weather[0].main == "Drizzle") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/drizzle.png";
-    }
-    else if(data.weather[0].main == "Mist") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/mist.png";
-    }
-    else if(data.weather[0].main == "Rain") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/rain.png";
-    }
-    else if(data.weather[0].main == "Snow") {
-    weatherIcon.src="https://frankayu.github.io/hosted-assets/snow.png";
-    }
+    const weatherImages = {
+        "Clouds": "clouds.png",
+        "Clear": "clear.png",
+        "Drizzle": "drizzle.png",
+        "Mist": "mist.png",
+        "Rain": "rain.png",
+        "Snow": "snow.png"
+      };
+      
+      const weatherCondition = data.weather[0].main;
+      const imageUrl = `https://frankayu.github.io/hosted-assets/${weatherImages[weatherCondition]}`;
+      weatherIcon.src = imageUrl;
 
     document.querySelector(".weather").style.display = "block";
     document.querySelector(".error").style.display = "none";
